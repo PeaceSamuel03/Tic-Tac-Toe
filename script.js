@@ -57,45 +57,72 @@ function drawMarker(){
     }
 }
 
-//function for checking the result of the game
 function checkResult(){
-    //check rows and cols (non-diagonal)
     for(let i = 0; i < 3; i++){
         let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
         let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
-        if(rowSum == 3 || colSum == 3){
-            //player 1 wins
-            endGame(1);
-            return
-        }else if(rowSum == -3 || colSum == -3){
-            endGame(2);
-            return
+
+        if(rowSum === 3){
+            //player 1 wins, return player & winning cells
+            endGame(1, [[i,0], [i,1], [i,2]]);
+            return;
+        } else if(rowSum === -3){
+            //player 2 wins, return player & winning cells
+            endGame(2, [[i,0], [i,1], [i,2]]);
+            return;
+        }
+
+        if(colSum === 3){
+            //player 1 wins, return player & winning cells
+            endGame(1, [[0,i], [1,i], [2,i]]);
+            return;
+        } else if(colSum === -3){
+            //player 2 wins, return player & winning cells
+            endGame(2, [[0,i], [1,i], [2,i]]);
+            return;
         }
     }
-    //check diagonals
+
     let diagonalSum1 = boardData[0][0] + boardData[1][1] + boardData[2][2];
     let diagonalSum2 = boardData[0][2] + boardData[1][1] + boardData[2][0];
-    if(diagonalSum1 == 3 || diagonalSum2 == 3){
-        //player 1 wins
-        endGame(1);
-        return
-    }else if(diagonalSum1 == -3 || diagonalSum2 == -3){
-        endGame(2);
-        return
+
+    if(diagonalSum1 === 3){
+        //player 1 wins, return player & winning cells
+        endGame(1, [[0,0],[1,1],[2,2]]);
+        return;
+    } else if(diagonalSum1 === -3){
+        //player 2 wins, return player & winning cells
+        endGame(2, [[0,0],[1,1],[2,2]]);
+        return;
     }
 
-    //check for a tie
-    if(boardData[0].indexOf(0) == -1 &&
-       boardData[1].indexOf(0) == -1 &&
-       boardData[2].indexOf(0) == -1 ){
-        endGame(0);
-       }
+    if(diagonalSum2 === 3){
+        //player 1 wins, return player & winning cells
+        endGame(1, [[0,2],[1,1],[2,0]]);
+        return;
+    } else if(diagonalSum2 === -3){
+        //player 2 wins, return player & winning cells
+        endGame(2, [[0,2],[1,1],[2,0]]);
+        return;
+    }
+
+    // check tie
+    if(boardData.flat().indexOf(0) === -1){
+        endGame(0, []);
+    }
 }
 
+
 //function to end game & display result
-function endGame(winner){
+function endGame(winner, winningCells = []){
     //trigger game over
     gameOver = true;
+
+    // highlight winning cells
+    winningCells.forEach(([row, col]) => {
+        cellElements[(row * 3) + col].classList.add("highlight");
+    });
+
     //check if game ended in tie
     if(winner == 0){
         resultElement.innerText = "It's a Tie!"
@@ -121,7 +148,7 @@ restartButton.addEventListener("click", () => {
     gameOver = false;
     // reset game board
     cellElements.forEach(cell => {
-        cell.classList.remove("cross", "circle");
+        cell.classList.remove("cross", "circle", "highlight");
     });
     //reset outcome text
     resultElement.innerText = ""
