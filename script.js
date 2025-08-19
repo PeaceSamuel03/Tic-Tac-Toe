@@ -12,6 +12,8 @@ let gameOver = false;
 
 //pull in cells from DOM
 const cellElements = document.querySelectorAll(".cell");
+//pull in the result text from DOM
+const resultElement = document.getElementById("result");
 
 //add event listener
 cellElements.forEach((cell, index) => {
@@ -24,10 +26,9 @@ cellElements.forEach((cell, index) => {
 function placeMarker(index){
     //determine row and column from index
     let col = index % 3
-    console.log(col);
     let row = (index - col) / 3
     //check if current cell is empty
-    if(boardData[row][col] == 0){
+    if(boardData[row][col] == 0 && gameOver == false){
         boardData[row][col] = player;
         //change player
         player *= -1;
@@ -65,8 +66,10 @@ function checkResult(){
         if(rowSum == 3 || colSum == 3){
             //player 1 wins
             endGame(1);
+            return
         }else if(rowSum == -3 || colSum == -3){
             endGame(2);
+            return
         }
     }
     //check diagonals
@@ -75,8 +78,10 @@ function checkResult(){
     if(diagonalSum1 == 3 || diagonalSum2 == 3){
         //player 1 wins
         endGame(1);
+        return
     }else if(diagonalSum1 == -3 || diagonalSum2 == -3){
         endGame(2);
+        return
     }
 
     //check for a tie
@@ -93,8 +98,31 @@ function endGame(winner){
     gameOver = true;
     //check if game ended in tie
     if(winner == 0){
-        console.log("Tie");
+        resultElement.innerText = "It's a Tie!"
     }else{
-        console.log("Player ${winner} wins!!");
+        resultElement.innerText = `Player ${winner} wins!`
     }
 }
+
+//restart game button
+const restartButton = document.getElementById("restart");
+//add event listener
+restartButton.addEventListener("click", () => {
+    //reset game variables
+    //game board
+    boardData = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ]
+
+    //game variables
+    player = 1;
+    gameOver = false;
+    // reset game board
+    cellElements.forEach(cell => {
+        cell.classList.remove("cross", "circle");
+    });
+    //reset outcome text
+    resultElement.innerText = ""
+});
