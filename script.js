@@ -1,30 +1,55 @@
-// set up various modes & start screen
+// set up various modes & scores
 let mode = null;
+let seriesType = "single"; 
+let roundsToWin = 1;
+let player1Score = 0;
+let player2Score = 0;
 
 //get screen elements
 const startScreen = document.getElementById("start-screen");
 const gameScreen = document.getElementById("game-screen");
+const seriesSelection = document.getElementById("series-selection");
+const modeSelection = document.getElementById("mode-selection")
 
-//buttons for modes
-//pvp game button
-const pvpButton = document.getElementById("pvp-btn");
-pvpButton.addEventListener("click", () => {
-    mode = "pvp";
-    startGame();
-})
 
-//pvc game button
-const pvcButton = document.getElementById("pvc-btn");
-pvcButton.addEventListener("click", () => {
-    mode = "pvc";
+//choose series
+document.querySelectorAll("#series-selection .menu-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        seriesType = btn.dataset.series;
+        if(seriesType === "single") roundsToWin = 1;
+        if(seriesType === "best3") roundsToWin = 2;
+        if(seriesType === "best5") roundsToWin = 3;
+        //move screen to mode selection
+        seriesSelection.style.display = "none";
+        modeSelection.style.display = "block";
+    });
+});
+
+// choose Mode
+document.querySelectorAll("#mode-selection .menu-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    mode = btn.dataset.mode;
+
+    //show game
+    startScreen.style.display = "none";
+    gameScreen.style.display = "flex";
     startGame();
-})
+  });
+});
+
 
 //back button
 const backButton = document.getElementById("back");
 backButton.addEventListener("click", () => {
     gameScreen.style.display = "none";
-    startScreen.style.display = "flex";
+    startScreen.style.display = "block";
+    //reset flow
+    seriesSelection.style.display = "block";
+    modeSelection.style.display = "none";
+    // reset scores
+    player1Score = 0;
+    player2Score = 0;
+    updateScoreboard();
 })
 
 //define array to hold board data
@@ -44,7 +69,7 @@ const cellElements = document.querySelectorAll(".cell");
 //pull in the result text from DOM
 const resultElement = document.getElementById("result");
 
-//add event listener
+//add event listener for cells
 cellElements.forEach((cell, index) => {
     cell.addEventListener("click", () => {
         placeMarker(index); //function
@@ -191,29 +216,44 @@ function checkResult(){
     }
 }
 
-
 //function to end game & display result
 function endGame(winner, winningCells = []){
     //trigger game over
     gameOver = true;
 
+    //check if game ended in tie
+    if(winner == 0){
+        resultElement.innerText = "It's a Tie!";
+    }else{
+        resultElement.innerText = `Player ${winner} wins this round!`;
+
+        if(winner == 1){
+            player1Score++;
+        }else{
+            player2Score++;
+        }
+    }
+    updateScoreboard();
+
+    //check if series is finished
+    if(player1Score >= roundsToWin){
+        resultElement.innerText = "🏆 Player 1 wins!";
+        lockGame();
+    }else if(player2Score >= roundsToWin){
+        resultElement.innerText = "🏆 Player 2 wins!";
+        lockGame();
+    }
+
     // highlight winning cells
     winningCells.forEach(([row, col]) => {
         cellElements[(row * 3) + col].classList.add("highlight");
     });
-
-    //check if game ended in tie
-    if(winner == 0){
-        resultElement.innerText = "It's a Tie!"
-    }else{
-        resultElement.innerText = `Player ${winner} wins!`
-    }
 }
 
-//restart game button
-const restartButton = document.getElementById("restart");
+//reset game button
+const resetButton = document.getElementById("reset");
 //add event listener
-restartButton.addEventListener("click", () => {
+resetButton.addEventListener("click", () => {
     //reset game variables
     //game board
     boardData = [
@@ -232,3 +272,13 @@ restartButton.addEventListener("click", () => {
     //reset outcome text
     resultElement.innerText = ""
 });
+
+function lockGame(){
+    gameOver = true;
+    resetButton.disabled = true;
+}
+
+function updateScoreboard(){
+    document.getElementById("p1-score").innerText = player1Score;
+    document.getElementById("p2-score").innerText = player2Score
+}
