@@ -10,7 +10,6 @@ const gameScreen = document.getElementById("game-screen");
 const pvpButton = document.getElementById("pvp-btn");
 pvpButton.addEventListener("click", () => {
     mode = "pvp";
-    //console.log("pvp");
     startGame();
 })
 
@@ -18,7 +17,6 @@ pvpButton.addEventListener("click", () => {
 const pvcButton = document.getElementById("pvc-btn");
 pvcButton.addEventListener("click", () => {
     mode = "pvc";
-    //console.log("pvc");
     startGame();
 })
 
@@ -29,7 +27,7 @@ backButton.addEventListener("click", () => {
     startScreen.style.display = "flex";
 })
 
-//array to hold board data
+//define array to hold board data
 let boardData = [
     [0, 0, 0],
     [0, 0, 0],
@@ -87,23 +85,35 @@ function placeMarker(index){
         //check if anyone has won
         checkResult();
 
-        //if pvc and the game is not over => computer will play
-        // if(mode == "pvc" && !gameOver){
-        //     computerMove();
-        // }
-     }  //else if(mode == "pvp" && boardData[row][col] == 0 && gameOver == false){
-    //     //pvp alternate between player turns 1, -1
-    //     boardData[row][col] = player;
-    //     //change player
-    //     player *= -1;
-    //     //update the screen with markers
-    //     drawMarker();
-    //     //check if anyone has won
-    //     checkResult();
-    // }
+        //if game not over, computer plays
+        if(mode == "pvc" && !gameOver && player == -1){
+            setTimeout(computerMove, 500);
+        }
+     }  
 }
 
-// function
+function computerMove(){
+    //function for the computer moves => simple for easy mode
+    if(mode != "pvc") return;
+
+    let emptyCells = [];
+    for(let row = 0; row < 3; row++){
+        for(let col = 0; col < 3; col++){
+            if(boardData[row][col] == 0){
+                emptyCells.push([row, col]);
+            }
+        }
+    }
+
+    if(emptyCells.length > 0){
+        //easy => pick random cell
+        let [row, col] = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        boardData[row][col] = player;
+        player *= -1;
+        drawMarker();
+        checkResult();
+    }
+}
 
 //function for drawing player markers
 function drawMarker(){
