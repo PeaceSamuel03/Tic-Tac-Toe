@@ -21,7 +21,7 @@ document.querySelectorAll("#series-selection .menu-btn").forEach(btn => {
         if(seriesType === "best5") roundsToWin = 3;
         //move screen to mode selection
         seriesSelection.style.display = "none";
-        modeSelection.style.display = "block";
+        modeSelection.style.display = "flex";
     });
 });
 
@@ -42,9 +42,9 @@ document.querySelectorAll("#mode-selection .menu-btn").forEach(btn => {
 const backButton = document.getElementById("back");
 backButton.addEventListener("click", () => {
     gameScreen.style.display = "none";
-    startScreen.style.display = "block";
+    startScreen.style.display = "flex";
     //reset flow
-    seriesSelection.style.display = "block";
+    seriesSelection.style.display = "flex";
     modeSelection.style.display = "none";
     // reset scores
     player1Score = 0;
