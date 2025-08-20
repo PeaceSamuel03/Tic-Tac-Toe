@@ -7,8 +7,17 @@
         <title>Simple Tic-Tac-Toe</title>
     </head>
     <body>
-        <div class="container">
-            <h1 class="game-title">Simple Tic-Tac-Toe</h1>
+        <!--Start screen-->
+        <div id="start-screen">
+            <h1 class="game-title">Tic-Tac-Toe</h1>
+            <p>Choose Game Mode:</p>
+            <button id="pvp-btn">Player vs Player</button>
+            <button id="pvc-btn">Player vs Computer</button>
+        </div>
+
+        <!--Game Screen-->
+        <div id="game-screen"  class="container">
+            <h1 class="game-title">Tic-Tac-Toe</h1>
             <section class="board">
                 <div class="cell"></div>
                 <div class="cell"></div>
@@ -22,6 +31,7 @@
             </section>
             <h1 id="result"></h1>
             <button id="restart">Restart Game</button>
+            <button id="back">Back to Menu</button>
             <script type="text/javascript" src="script.js"></script>
         </div>
     </body>

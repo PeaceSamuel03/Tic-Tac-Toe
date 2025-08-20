@@ -1,9 +1,40 @@
+// set up various modes & start screen
+let mode = null;
+
+//get screen elements
+const startScreen = document.getElementById("start-screen");
+const gameScreen = document.getElementById("game-screen");
+
+//buttons for modes
+//pvp game button
+const pvpButton = document.getElementById("pvp-btn");
+pvpButton.addEventListener("click", () => {
+    mode = "pvp";
+    //console.log("pvp");
+    startGame();
+})
+
+//pvc game button
+const pvcButton = document.getElementById("pvc-btn");
+pvcButton.addEventListener("click", () => {
+    mode = "pvc";
+    //console.log("pvc");
+    startGame();
+})
+
+//back button
+const backButton = document.getElementById("back");
+backButton.addEventListener("click", () => {
+    gameScreen.style.display = "none";
+    startScreen.style.display = "flex";
+})
+
 //array to hold board data
 let boardData = [
     [0, 0, 0],
     [0, 0, 0],
     [0, 0, 0]
-]
+];
 
 //define game variables
 let player = 1;
@@ -22,12 +53,31 @@ cellElements.forEach((cell, index) => {
     });
 });
 
+function startGame(){
+    //function to start the game, reset board
+    boardData = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ];
+    player = 1;
+    gameOver = false;
+    cellElements.forEach(cell => {
+        cell.classList.remove("cross", "circle", "highlight");
+    });
+    resultElement.innerText = "";
+
+    // show game screen
+    startScreen.style.display = "none";
+    gameScreen.style.display = "flex";
+}
+
 //create function for placing marker
 function placeMarker(index){
     //determine row and column from index
     let col = index % 3
     let row = (index - col) / 3
-    //check if current cell is empty
+    //check if current cell is empty, pvp & pvc modes
     if(boardData[row][col] == 0 && gameOver == false){
         boardData[row][col] = player;
         //change player
@@ -36,8 +86,24 @@ function placeMarker(index){
         drawMarker();
         //check if anyone has won
         checkResult();
-    }  
+
+        //if pvc and the game is not over => computer will play
+        // if(mode == "pvc" && !gameOver){
+        //     computerMove();
+        // }
+     }  //else if(mode == "pvp" && boardData[row][col] == 0 && gameOver == false){
+    //     //pvp alternate between player turns 1, -1
+    //     boardData[row][col] = player;
+    //     //change player
+    //     player *= -1;
+    //     //update the screen with markers
+    //     drawMarker();
+    //     //check if anyone has won
+    //     checkResult();
+    // }
 }
+
+// function
 
 //function for drawing player markers
 function drawMarker(){
@@ -57,11 +123,13 @@ function drawMarker(){
     }
 }
 
+//function for checking the result of the game
 function checkResult(){
     for(let i = 0; i < 3; i++){
         let rowSum = boardData[i][0] + boardData[i][1] + boardData[i][2];
         let colSum = boardData[0][i] + boardData[1][i] + boardData[2][i];
 
+        //check rows and cols
         if(rowSum === 3){
             //player 1 wins, return player & winning cells
             endGame(1, [[i,0], [i,1], [i,2]]);
@@ -86,6 +154,7 @@ function checkResult(){
     let diagonalSum1 = boardData[0][0] + boardData[1][1] + boardData[2][2];
     let diagonalSum2 = boardData[0][2] + boardData[1][1] + boardData[2][0];
 
+    //check diagonals
     if(diagonalSum1 === 3){
         //player 1 wins, return player & winning cells
         endGame(1, [[0,0],[1,1],[2,2]]);
