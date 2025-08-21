@@ -41,3 +41,7 @@ Open `index.html` in your preferred browser.
 - Customisable player symbols
 - Animations and sound effects
 
+## Screenshots
+<img src="start_screen1.png" alt="Local Image" width="500">
+<img src="start_screen2.png" alt="Local Image" width="500">
+<img src="game_screen.png" alt="Local Image" width="500">
