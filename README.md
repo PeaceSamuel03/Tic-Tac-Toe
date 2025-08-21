@@ -48,4 +48,7 @@ Open `index.html` in your preferred browser.
 
 ## Demo Video
 Here's a short demo of the game 🎥:
+![Tic-Tac-Toe Demo](recording.gif)
+
+
 https://github.com/user-attachments/assets/e47c3387-28d9-4954-8444-9a34dc40dd10
