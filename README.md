@@ -6,7 +6,7 @@ A web-based project that uses **Javascript**, **HTML**, ans **CSS** to create a 
 - **Game Modes**
   - Player vs Player
   - Player vs Computer (easy mode)
- - **Series Options**
+- **Series Options**
   - Single game
   - Best of 3
   - Best of 5
