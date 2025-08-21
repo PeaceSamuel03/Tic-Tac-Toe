@@ -35,15 +35,6 @@ Open `index.html` in your preferred browser.
   - Play in turns until someone wins or the board is full
   - Track scores across rounds in series mode
 
-## File Structure
-tic-tac-toe/
-│
-├── index.html # Main HTML file
-├── style.css # CSS for styling the game
-├── script.js # JavaScript game logic
-├── favicon.ico # Favicon for browser tab
-└── README.md # Project documentation
-
 ## Future Improvement Ideas
 - Harder Computer modes
 - Undo/Redo functionality
