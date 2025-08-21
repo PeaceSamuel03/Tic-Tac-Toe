@@ -25,8 +25,7 @@ A web-based project that uses **Javascript**, **HTML**, ans **CSS** to create a 
      ```
      bash
      git clone https://github.com/PeaceSamuel03/Tic-Tac-Toe.git
-     cd Tic-Tac-Toe
-    ```
+     cd Tic-Tac-Toe```
 2. **Open in Browser**
 Open `index.html` in your preferred browser.
 
