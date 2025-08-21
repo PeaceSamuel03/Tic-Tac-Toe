@@ -45,3 +45,7 @@ Open `index.html` in your preferred browser.
 <img src="start_screen1.png" alt="Local Image" width="500">
 <img src="start_screen2.png" alt="Local Image" width="500">
 <img src="game_screen.png" alt="Local Image" width="500">
+
+## Demo Video
+Here's a short demo of the game 🎥:
+https://github.com/user-attachments/assets/e47c3387-28d9-4954-8444-9a34dc40dd10
