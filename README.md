@@ -22,7 +22,8 @@ A web-based project that uses **Javascript**, **HTML**, ans **CSS** to create a 
  
   ## Installation & Usage
   1. **Clone the repository**
-     ```bash
+     ```
+     bash
      git clone https://github.com/PeaceSamuel03/Tic-Tac-Toe.git
      cd Tic-Tac-Toe
     ```
